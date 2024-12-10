@@ -10,22 +10,13 @@ import UserImage from "./UserImage"
 
 import {motion} from "motion/react"
 
-import { getBasicInfo } from "@/data/patient/patient"
-import { useEffect, useState } from "react"
+import { useAuthentication } from "@/context/AuthenticationContext"
 
 const BasicInfo = () => {
 
-    const [user,setUser] = useState({})
-    console.log(user)
+    const {user,loading} = useAuthentication()
 
-    useEffect(()=>{
-        const fetchBasicInfo = async()=>{
-            const data = await getBasicInfo();
-            setUser(data.user);
-            // console.log(data);
-        }
-        fetchBasicInfo();
-    },[])
+    if(loading) return <p>loading....</p>
 
   return (
     <motion.div

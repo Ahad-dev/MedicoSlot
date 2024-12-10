@@ -5,7 +5,7 @@ import {
     CardContent
 
 } from "@/components/ui/card";
-import { BackButton } from "@/components/auth/back-button";
+import BackButton  from "@/components/common/backButton";
 
 export const CardWrapper = ({
   children,
@@ -13,7 +13,7 @@ export const CardWrapper = ({
   backButtonLabel,
   backButtonhref,
 }) => {
-  return <Card className="w-[400px] shadow-md">
+  return <Card className="w-[400px] shadow-md m-auto">
     <CardHeader>
         <h1 className="text-3xl font-semibold">{headerLable}</h1>
     </CardHeader>

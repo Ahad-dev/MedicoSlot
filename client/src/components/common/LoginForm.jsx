@@ -18,10 +18,13 @@ import { LoginSchema } from "@/schemas/patient"
 import { login } from "@/services/login"
 
 import { useNavigate } from "react-router-dom"
+import { CardWrapper } from "./CardWrapper"
+import { useAuthentication } from "@/context/AuthenticationContext"
 
 const LoginForm = () => {
 
     const navigation = useNavigate();
+    const {setIsAuthenticated,setUser} = useAuthentication()
 
     const form = useForm({
         resolver: zodResolver(LoginSchema),
@@ -36,15 +39,20 @@ const LoginForm = () => {
         const result = await login(data);
         //if login is successful
         if(result.success){
+          console.log(result)
+
+            setIsAuthenticated(true)
+            setUser(result.user)
+            navigation('/patient/dashboard')
             console.log("Login Successful")
         }
         //redirect to patient dashboard
-        navigation('/patient/dashboard')
 
     }
   return (
+    <CardWrapper headerLable={"Login"} backButtonLabel={"Don't have an Account"} backButtonhref={"/patient/register"}>
     <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
             control={form.control}
             name="CNIC"
@@ -84,6 +92,7 @@ const LoginForm = () => {
         <Button type="submit" className="bg-Primary-dark-Green text-white w-full p-5 rounded-none">Login</Button>
         </form>
     </Form>
+    </CardWrapper>
   )
 }
 

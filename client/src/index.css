@@ -8,8 +8,12 @@
     --radius: 0.5rem
   }
 }
-body{
+body,html{
   font-family: 'Helvetica';
   /* background-color: #f3f4f6; */
   color: #333;
+  height: 100vh;
+}
+#root{
+  height: inherit;
 }
