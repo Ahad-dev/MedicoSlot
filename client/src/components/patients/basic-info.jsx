@@ -1,8 +1,6 @@
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
@@ -14,9 +12,8 @@ import { useAuthentication } from "@/context/AuthenticationContext"
 
 const BasicInfo = () => {
 
-    const {user,loading} = useAuthentication()
+    const {user} = useAuthentication()
 
-    if(loading) return <p>loading....</p>
 
   return (
     <motion.div

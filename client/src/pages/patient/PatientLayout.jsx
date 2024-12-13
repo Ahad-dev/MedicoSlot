@@ -2,8 +2,15 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navbar, Sidebar } from '@/components/common';
 import { PatientSideBarLinks } from '@/lib/SideBar';
+import { useAuthentication } from '@/context/AuthenticationContext';
+import { LoaderComponent } from '@/components/common/Loader';
 
 const PatientLayout = () => {
+  const {loading} = useAuthentication()
+
+  if (loading) {
+    return <LoaderComponent></LoaderComponent>
+  }
   return (
       <div>
         <Navbar />
