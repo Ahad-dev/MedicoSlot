@@ -1,8 +1,8 @@
-import { Schema,model } from "mongoose";
+const mongoose = require('mongoose');
 
-const reportSchema = new Schema({
+const reportSchema = new mongoose.Schema({
     appointment: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Appointment',
         required: true
     },
@@ -12,7 +12,6 @@ const reportSchema = new Schema({
     prescription: {
         type: String,
         default: ''
-
     },
     date: {
         type: Date,
@@ -20,6 +19,6 @@ const reportSchema = new Schema({
     },
 });
 
-const Report = model('Report', reportSchema);
+const Report = mongoose.model('Report', reportSchema);
 
-export default Report;
+module.exports = Report;

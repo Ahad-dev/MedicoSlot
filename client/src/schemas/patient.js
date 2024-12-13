@@ -25,5 +25,5 @@ export const AddAppointmentSchema = z.object({
     description:z.string(),
     time:z.string() ,
     day:z.string(),
-    tokenId:z.string()
+    doctorId:z.string(),
 })

@@ -14,12 +14,10 @@ const appointmentSchema = new mongoose.Schema({
     token: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Token',
-        required: true
     },
     report: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Report',
-        required: false
     },
     status:{
         type:String,

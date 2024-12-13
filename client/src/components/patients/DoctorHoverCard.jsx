@@ -9,6 +9,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { formatMonthYear } from "@/lib/utils";
 
 const DoctorHoverCard = ({ doctor }) => {
   return (
@@ -31,7 +32,7 @@ const DoctorHoverCard = ({ doctor }) => {
               <div className="flex items-center pt-2">
                 <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
                 <span className="text-xs text-muted-foreground">
-                  Joined December 2021
+                  Joined {formatMonthYear(doctor.doctor_id.createdAt)}
                 </span>
               </div>
             </div>

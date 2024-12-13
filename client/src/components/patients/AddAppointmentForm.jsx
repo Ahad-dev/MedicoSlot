@@ -20,6 +20,7 @@ import { CreateSelectedDoctor } from "@/context/CreateSelectedDoctor";
 import SelectTimeSlotDrawer from "./SelectTimeSlotDrawer";
 import { Link } from "react-router-dom";
 import { SelectedTimeSlot } from "@/context/SelectedTimeSlot";
+import { bookAppointment } from "@/services/Patient";
 
 const AddAppointmentForm = () => {
   const { selectedDoctor } = useContext(CreateSelectedDoctor);
@@ -38,35 +39,34 @@ const AddAppointmentForm = () => {
       description: selectedDoctor?.description,
       time:selectedTimeSlot?.time ,
       day:selectedTimeSlot?.day ,
-      tokenId:selectedTimeSlot?.id
+
     },
   });
 
   const { reset } = form;
   useEffect(() => {
     if (selectedDoctor) {
-      //TODO: this is only dummy data later when we stup backend we get while data from there
-
       reset({
         ...form.getValues(),
-        doctorName: selectedDoctor?.doctorName,
+        doctorId: selectedDoctor._id ,
+        doctorName: selectedDoctor?.doctor_id.fullName,
         specialization: selectedDoctor?.specialization,
-        description: selectedDoctor?.description,
+        description: selectedDoctor?.description||"No Description Available",
+
       });
     }
     if(selectedTimeSlot){
-      //TODO: this is only dummy data later when we stup backend we get while data from there
       reset({
         ...form.getValues(),
-        time:selectedTimeSlot.time || selectedTimeSlot,
-        day:selectedTimeSlot.day || "Tuesday",
-        tokenId:selectedTimeSlot.id || "4654ds6af54as6d54f65ds"
+        time:selectedTimeSlot.time,
+        day:selectedTimeSlot.day 
       })
     }
   }, [selectedDoctor, reset, form,selectedTimeSlot]);
 
   const onSubmit = (data) => {
     console.log(data);
+    bookAppointment(data);
   };
 
   return (
@@ -160,10 +160,10 @@ const AddAppointmentForm = () => {
             <>
               <FormField
                 control={form.control}
-                name="time"
+                name="doctorName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Time</FormLabel>
+                    <FormLabel>Doctor Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled
@@ -257,25 +257,6 @@ const AddAppointmentForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Day</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled
-                        className="rounded-none p-5   focus-visible:ring-0  outline-none  bg-gray-400/20 border-t-0 border-l-0 border-r-0 border-b border-slate-500/20 placeholder:text-gray-400"
-                        {...field}
-                        type="text"
-                        placeholder="John Doe"
-                      ></Input>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              ></FormField>
-              <FormField
-                control={form.control}
-                name="tokenId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Token ID</FormLabel>
                     <FormControl>
                       <Input
                         disabled

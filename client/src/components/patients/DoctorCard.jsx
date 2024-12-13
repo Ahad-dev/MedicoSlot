@@ -9,12 +9,12 @@ const DoctorCard = ({ doctor }) => {
     <Card
       key={doctor.id}
       className={`hover:shadow-lg transition ${
-        tempSelectedDoctor?.id === doctor.id ? "border border-blue-500" : ""
+        tempSelectedDoctor?._id === doctor._id ? "border border-blue-500" : ""
       }`}
       onClick={() => setTempSelectedDoctor(doctor)}
     >
       <CardHeader>
-        <CardTitle>{doctor.doctorName}</CardTitle>
+        <CardTitle>{doctor.doctor_id.fullName}</CardTitle>
         <p className="text-sm text-gray-500">{doctor.specialization}</p>
       </CardHeader>
     </Card>

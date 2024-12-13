@@ -6,8 +6,8 @@ const tokenSchema = new Schema({
         ref: 'Appointment',
         required: true
     },
-    Date: {
-        type: Date,
+    day: {
+        type: String,
         required: true
     },
     time_slot: {

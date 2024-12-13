@@ -1,6 +1,7 @@
 const { Patient, Doctor } = require("../models/user.model");
 const Appointment = require("../models/appointment.model");
 const Token = require("../models/token.model");
+const Report = require("../models/report_model");
 
 const getBasicInfo = async (req, res) => {
   const user = req?.user;
@@ -42,15 +43,14 @@ const getAppointmentHistory = async (req, res) => {
 };
 
 const bookAppointment = async (req, res) => {
-  const { doctorId, date, time } = req.body;
-  const { id: patientId } = req?.user;
+  const { doctorId, day, time } = req.body;
+  const { _id: patientId } = req?.user;
+  console.log(req?.user._id);
   try {
     //Book the appointment
     const appointment = new Appointment({
       doctor: doctorId,
       patient: patientId,
-      date,
-      time,
       status: "Pending",
     });
 
@@ -59,13 +59,13 @@ const bookAppointment = async (req, res) => {
     //create a token
     const token = new Token({
       appointment: appointment.id,
-      date,
+      day,
       time_slot: time,
     });
     await token.save();
-    //create the report
+    //create the report with create
     const report = new Report({
-        appointment: appointment.id,
+      appointment: appointment.id,
     });
     await report.save();
 
@@ -76,13 +76,15 @@ const bookAppointment = async (req, res) => {
     await appointment.save();
 
     //Add the appointment to patient's appointments
-    const patient = await Patient.findById(patientId);
-    patient.appointments.push(appointment.id);
+    console.log(patientId);
+    let patient = await Patient.findOne({patient_id:patientId});
+
+    patient.appointments = [...patient.appointments, appointment.id];    
     await patient.save();
 
     //Add the appointment to doctor's appointments
     const doctor = await Doctor.findById(doctorId);
-    doctor.appointments.push(appointment.id);
+    doctor.appointments = [...doctor.appointments, appointment.id];
     await doctor.save();
 
     return res.status(200).json({ success: true, appointment });
@@ -91,9 +93,19 @@ const bookAppointment = async (req, res) => {
   }
 };
 
+const getDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find().populate('doctor_id');
+    return res.status(200).json({ success: true, doctors });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+}
+
 module.exports = {
   getBasicInfo,
   getUncommingAppointments,
   getAppointmentHistory,
   bookAppointment,
+  getDoctors,
 };

@@ -31,6 +31,7 @@ app.use(express.urlencoded({extended:true}))
 app.use("/api/auth",authRouter);
 app.use("/api/patient",require("./routes/patientRoute"));
 app.use("/api/doctor",require("./routes/doctorRoute"));
+app.use("/api/admin",require("./routes/adminRoute"));
 
 
 app.listen(PORT,()=>{

@@ -38,7 +38,7 @@ const patientSchema = new mongoose.Schema({
     appointments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Appointment',
-        required: false
+        default: []
     }],
 
 })
@@ -60,12 +60,12 @@ const doctorSchema = new mongoose.Schema({
         required: true
     },
     experience: {
-        type: Number,
+        type: String,
         required: true
     },
     availability: {
         type: Boolean,
-        required: true
+        default: true
     },
     availability_days: {
         type: [String],

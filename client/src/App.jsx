@@ -23,7 +23,7 @@ const App = () => {
               <Route path='/patient/appointment/:id' element={<h1>A</h1>}></Route>
               <Route path='/patient/settings' element={<Settings/>}></Route>
           </Route>
-          <Route element = {<PatientLayout><AddAppointmentLayout/></PatientLayout>}>
+          <Route element = {<ProtectedRoute><AddAppointmentLayout/></ProtectedRoute>}>
             <Route path="/patient/add-appointment" element={<AddAppointment/>}/>
           </Route>
         </Routes>

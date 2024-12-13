@@ -9,14 +9,17 @@ import {
     DrawerFooter
 } from "../ui/drawer";
 import { Button } from "../ui/button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { getTimeSlot } from "@/data/patient/Appointments";
 import { SelectedTimeSlot } from "@/context/SelectedTimeSlot";
+import { CreateSelectedDoctor } from "@/context/CreateSelectedDoctor";
 
 const SelectTimeSlotDrawer = ({buttonLabel}) => {
     const {tempSelectedTimeSlot,setTempSelectedTimeSlot,setSelectedTimeSlot} = useContext(SelectedTimeSlot);
+    const {selectedDoctor} = useContext(CreateSelectedDoctor);
+    const [day,setDay] = useState('');
 
-    const timeSlots = getTimeSlot()
+    const timeSlots = getTimeSlot(selectedDoctor.available_timeslots,selectedDoctor.specialization)
 
     const handleSlotSelection = (slot) => {
         setTempSelectedTimeSlot(slot);
@@ -24,7 +27,7 @@ const SelectTimeSlotDrawer = ({buttonLabel}) => {
 
     const handleConfirm = () => {
         if (tempSelectedTimeSlot) {
-            setSelectedTimeSlot(tempSelectedTimeSlot)
+            setSelectedTimeSlot({time:tempSelectedTimeSlot,day});
             console.log("Confirmed Time Slot:", tempSelectedTimeSlot);
         }
     };
@@ -48,18 +51,36 @@ const SelectTimeSlotDrawer = ({buttonLabel}) => {
                 </DrawerHeader>
 
                 {/* Time Slot Buttons */}
-                <div className="grid grid-cols-8 gap-4 mt-4">
-                    {timeSlots.map((slot, index) => (
+                <div className=" flex gap-10 mt-4 ">
+                    <div className="space-y-4">
+                    {selectedDoctor.availability_days.map((dayI, index) => (
+                        <Button
+                        
+                            key={dayI}
+                            onClick={() => setDay(dayI)}
+                            className={`w-full ${
+                                day === dayI ? "bg-blue-500 text-white" : ""
+                            }`}
+                        >
+                            {dayI}
+                        </Button>
+                    ))}
+                    </div>
+                    <div className="w-full flex flex-wrap gap-4">
+
+                    {day && timeSlots.map((slot, index) => (
                         <Button
                             key={index}
                             onClick={() => handleSlotSelection(slot)}
-                            className={`w-full ${
+                            className={`bg-white text-black border border-black/20 hover:bg-slate-400/50 hover:text-gray-800 hover:border-transparent ${
                                 tempSelectedTimeSlot === slot ? "bg-blue-500 text-white" : ""
                             }`}
                         >
                             {slot}
                         </Button>
                     ))}
+                    </div>
+
                 </div>
 
                 {/* Footer */}

@@ -1,4 +1,4 @@
-const { User } = require("../models/user.model");
+const { User ,Patient} = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const { createTokenAndSetCookie } = require("../lib/token");
 
@@ -21,6 +21,11 @@ const patientRegister = async (req, res) => {
       CNIC,
       password: hashedPassword,
     });
+    //create a patient
+    const patient = new Patient({
+      patient_id: user._id,
+    });
+    await patient.save();
 
     //create the token and set the cookie
     const token = createTokenAndSetCookie(res, {
@@ -28,6 +33,7 @@ const patientRegister = async (req, res) => {
       fullName: user.fullName,
       CNIC: user.CNIC,
     });
+
 
     //send the response
     res
