@@ -10,42 +10,123 @@ const getBasicInfo = async (req, res) => {
 };
 
 const getUncommingAppointments = async (req, res) => {
-  const { id } = req?.user;
+  try {
+    const { _id: id } = req.user;
+    // Find the appointments directly from the Appointment model
+    console.log("Patient ID:", id);
+    //find patient and populate appointments and doctor fields and dcotor field is in the appointment model
+    const patient = await Patient.findOne({ patient_id: id }).populate({
+      path: "appointments", // Populate appointments
+      populate: [
+        {
+          path: "doctor",
+          populate: { path: "doctor_id", select: "fullName" },
+        }, // Populate doctor details
+        { path: "token", select: "date time day time_slot" }, // Populate token details (if token is a reference)
+      ],
+    });
 
-  //First get the patient
-  const patient = await Patient.findById(id).populate("appointments");
-  //Now I have the patient with appointments populated
-  //I can filter out appointments where status is pending
-  const uncommingAppointments = patient.appointments.filter(
-    (appointment) => appointment.status === "Pending"
-  );
-  //Now I have uncommingAppointments
+    console.log("Patient:", patient);
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
 
-  return res.status(200).json({ success: true, uncommingAppointments });
+    // Filter out the upcoming appointments
+    const upcomingAppointments = patient.appointments.filter(
+      (appointment) => appointment.status === "Pending"
+    );
+
+    console.log("Upcoming appointments:", upcomingAppointments);
+    if (!upcomingAppointments || upcomingAppointments.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No upcoming appointments found" });
+    }
+
+    // Extract the required details from each appointment
+    const appointments = upcomingAppointments.map((appointment) => {
+      const { token, _id, doctor } = appointment;
+      const { date, time_slot, day } = token; // Assuming token contains date, time, and day
+
+      return {
+        id: _id,
+        doctorName: doctor.doctor_id.fullName, // From populated doctor field
+        date: date.toDateString(), // Convert date to string
+        time:time_slot,
+        day,
+        doctor
+      };
+    });
+
+    console.log("Filtered appointments:", appointments);
+    // Respond with the array of filtered appointments
+    res.status(200).json({ appointments });
+  } catch (error) {
+    console.error("Error fetching upcoming appointments:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 const getAppointmentHistory = async (req, res) => {
-  const { id } = req?.user;
   try {
-    //First get the patient
-    const patient = await Patient.findById(id).populate("appointments");
-    //Now I have the patient with appointments populated
-    //I can filter out appointments where status is completed
+    const { _id: id } = req.user;
+    // Find the appointments directly from the Appointment model
+    console.log("Patient ID:", id);
+    //find patient and populate appointments and doctor fields and dcotor field is in the appointment model
+    const patient = await Patient.findOne({ patient_id: id }).populate({
+      path: "appointments", // Populate appointments
+      populate: [
+        {
+          path: "doctor",
+          populate: { path: "doctor_id" },
+        }, // Populate doctor details
+        { path: "token", select: "date time day time_slot" }, // Populate token details (if token is a reference)
+      ],
+    });
+
+    console.log("Patient:", patient);
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+
     const appointmentHistory = patient.appointments.filter(
       (appointment) => appointment.status === "Completed"
     );
-    //Now I have appointmentHistory
+    
+    console.log("appointmentHistory: ", appointmentHistory);
+    if (!appointmentHistory || appointmentHistory.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No appointments History found" });
+    }
 
-    return res.status(200).json({ success: true, appointmentHistory });
+    // Extract the required details from each appointment
+    const appointments = appointmentHistory.map((appointment) => {
+      const { token, _id, doctor } = appointment;
+      const { date, time_slot, day } = token; // Assuming token contains date, time, and day
+
+      return {
+        id: _id,
+        doctorName: doctor.doctor_id.fullName, // From populated doctor field
+        date: date.toDateString(), // Convert date to string
+        time:time_slot,
+        day,
+        doctor,
+      };
+    });
+
+    console.log("Filtered appointments:", appointments);
+    // Respond with the array of filtered appointments
+    res.status(200).json({ appointments });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
 
 const bookAppointment = async (req, res) => {
-  const { doctorId, day, time } = req.body;
+  const { doctorId, day, time, date } = req.body;
+  console.log({ doctorId, day, time, date });
   const { _id: patientId } = req?.user;
-  console.log(req?.user._id);
   try {
     //Book the appointment
     const appointment = new Appointment({
@@ -61,6 +142,7 @@ const bookAppointment = async (req, res) => {
       appointment: appointment.id,
       day,
       time_slot: time,
+      date,
     });
     await token.save();
     //create the report with create
@@ -76,10 +158,9 @@ const bookAppointment = async (req, res) => {
     await appointment.save();
 
     //Add the appointment to patient's appointments
-    console.log(patientId);
-    let patient = await Patient.findOne({patient_id:patientId});
+    let patient = await Patient.findOne({ patient_id: patientId });
 
-    patient.appointments = [...patient.appointments, appointment.id];    
+    patient.appointments = [...patient.appointments, appointment.id];
     await patient.save();
 
     //Add the appointment to doctor's appointments
@@ -95,12 +176,12 @@ const bookAppointment = async (req, res) => {
 
 const getDoctors = async (req, res) => {
   try {
-    const doctors = await Doctor.find().populate('doctor_id');
+    const doctors = await Doctor.find().populate("doctor_id");
     return res.status(200).json({ success: true, doctors });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
-}
+};
 
 module.exports = {
   getBasicInfo,

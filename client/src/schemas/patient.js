@@ -26,4 +26,6 @@ export const AddAppointmentSchema = z.object({
     time:z.string() ,
     day:z.string(),
     doctorId:z.string(),
+    //date of any type
+    date:z.any()
 })

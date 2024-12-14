@@ -10,26 +10,28 @@ import ProtectedRoute from './components/common/ProtectedRoute'
 import LoaderPage from './components/common/LoaderPage'
 
 
+
+
 const App = () => {
-  const [loading, setLoading] = useState(false);
-  const location = useLocation();
+  // const [loading, setLoading] = useState(false);
+  // const location = useLocation();
 
-  useEffect(() => {
-    // Set loading to true when location changes (route change)
-    setLoading(true);
+  // useEffect(() => {
+  //   // Set loading to true when location changes (route change)
+  //   setLoading(true);
 
-    // Simulate loading time, then set loading to false after delay
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 800); // Adjust the delay as needed (e.g., fetching data, etc.)
+  //   // Simulate loading time, then set loading to false after delay
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 800); // Adjust the delay as needed (e.g., fetching data, etc.)
 
-    // Cleanup the timer when component unmounts or location changes
-    return () => clearTimeout(timer);
-  }, [location]);
+  //   // Cleanup the timer when component unmounts or location changes
+  //   return () => clearTimeout(timer);
+  // }, [location]);
 
   
   return (
-    loading ? <LoaderPage></LoaderPage> :
+    // loading ? <LoaderPage></LoaderPage> :
     <AuthenticationContextProvider>
           <Routes>
           <Route path='/login' element={<Login/>}/>

@@ -38,5 +38,6 @@ export const login = async ({CNIC, password}) => {
         return response.data;
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);
+        return error.response?.data || error.message;
     }
 }

@@ -4,6 +4,8 @@ import { Navbar, Sidebar } from '@/components/common';
 import { PatientSideBarLinks } from '@/lib/SideBar';
 import { useAuthentication } from '@/context/AuthenticationContext';
 import { LoaderComponent } from '@/components/common/Loader';
+import { Toaster } from "@/components/ui/sonner"
+
 
 const PatientLayout = () => {
   const {loading} = useAuthentication()
@@ -20,6 +22,7 @@ const PatientLayout = () => {
             links={PatientSideBarLinks}
           />
           <main className="space-y-4 m-10 flex flex-col w-[100%]">
+            <Toaster />
             <Outlet />
           </main>
         </div>

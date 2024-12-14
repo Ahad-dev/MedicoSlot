@@ -4,7 +4,6 @@ import {
     Card,
     CardContent,
     CardFooter,
-    CardHeader
 
 } from "../ui/card"
 
@@ -22,7 +21,7 @@ const AppointmentCard = ({appointment}) => {
             </CardContent>
             <CardContent className = "flex gap-3">
                 <h2 className="font-semibold ">Purpose:</h2>
-                <p>{appointment.purpose}</p>
+                <p>{appointment.doctor.specialization}</p>
             </CardContent>
             <CardContent className = "flex gap-3">
                 <h2 className="font-semibold ">Date</h2>

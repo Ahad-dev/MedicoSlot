@@ -6,6 +6,7 @@ const AppointmentHistoryTable = ({ data }) => {
   console.log(data);
 
   return (
+    data ? <div className="text-center text-2xl text-gray-500">No Appointments</div> :
     <table className="w-full overflow-hidden rounded-lg shadow-lg">
       <thead>
         <tr>
@@ -20,6 +21,7 @@ const AppointmentHistoryTable = ({ data }) => {
         </tr>
       </thead>
       <tbody>
+        
         {data.map((item) => (
           <tr className="text-gray-500 hover:bg-gray-400/10">
             <td className="py-6 text-center">{item.id}</td>

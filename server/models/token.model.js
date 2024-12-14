@@ -14,6 +14,10 @@ const tokenSchema = new Schema({
         type: String,
         required: true
     },
+    date: {
+        type: Date,
+        required: true
+    },
 });
 
 const Token = model('Token', tokenSchema);

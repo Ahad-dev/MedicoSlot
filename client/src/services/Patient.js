@@ -34,3 +34,23 @@ export const bookAppointment = async (appointmentData)=>{
         console.error('Error:', error.response?.data || error.message);
     }
 }
+
+export const getUncommingAppointments = async ()=>{
+    try{
+        const response = await apiClient.get(`${API_URL}/api/patient/upcomingappointments`);
+        console.log('Response Data:', response.data);
+        return response.data.appointments;
+    }catch(error){
+        console.error('Error:', error.response?.data || error.message);
+    }
+}
+
+export const getAppointmentHistory = async ()=>{
+    try{
+        const response = await apiClient.get(`${API_URL}/api/patient/appointmenthistory`);
+        console.log('Response Data:', response.data);
+        return response.data.appointments;
+    }catch(error){
+        console.error('Error:', error.response?.data || error.message);
+    }
+}

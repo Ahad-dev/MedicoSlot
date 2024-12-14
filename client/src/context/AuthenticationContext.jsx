@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getBasicInfo } from "@/data/patient/patient";
+import LoaderPage from "@/components/common/LoaderPage";
 const AuthenticationContext = createContext();
 
 const AuthenticationContextProvider = ({ children }) => {
@@ -31,7 +32,7 @@ const AuthenticationContextProvider = ({ children }) => {
         <AuthenticationContext.Provider
             value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
         >
-            {!loading ? children : <p>Loading...</p>} {/* Show loading state */}
+            {!loading ? children : <LoaderPage/>} {/* Show loading state */}
         </AuthenticationContext.Provider>
     );
 };

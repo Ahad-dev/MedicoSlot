@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { AddAppointmentSchema } from "@/schemas/patient";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect, useTransition } from "react";
+import { useContext, useEffect, useState, useTransition } from "react";
 import { LoaderComponent } from "../common/Loader";
 import { Header } from "../common";
 import SelectDoctorDialog from "./SelectDoctorDialog";
@@ -21,11 +21,15 @@ import SelectTimeSlotDrawer from "./SelectTimeSlotDrawer";
 import { Link } from "react-router-dom";
 import { SelectedTimeSlot } from "@/context/SelectedTimeSlot";
 import { bookAppointment } from "@/services/Patient";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { set } from "date-fns";
 
 const AddAppointmentForm = () => {
   const { selectedDoctor } = useContext(CreateSelectedDoctor);
   const {selectedTimeSlot} = useContext(SelectedTimeSlot)
-  const [isPending, starTransition] = useTransition();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(AddAppointmentSchema),
@@ -59,14 +63,26 @@ const AddAppointmentForm = () => {
       reset({
         ...form.getValues(),
         time:selectedTimeSlot.time,
-        day:selectedTimeSlot.day 
+        day:selectedTimeSlot.day, 
+        date:selectedTimeSlot.date
       })
+      console.log(selectedTimeSlot)
     }
   }, [selectedDoctor, reset, form,selectedTimeSlot]);
 
   const onSubmit = (data) => {
+    setLoading(true)
     console.log(data);
-    bookAppointment(data);
+    bookAppointment(data).then(res=>{
+      console.log(res)
+      setLoading(false)
+      if(res.success){
+        toast.success("Appointment Booked Successfully")
+        setTimeout(() => {
+          navigate("/patient/dashboard")
+        }, 1000);
+      }
+    })
   };
 
   return (
@@ -277,8 +293,8 @@ const AddAppointmentForm = () => {
         </>
         }
 
-        <Button type="submit" disabled={isPending} className="float-right">
-          {isPending ? <LoaderComponent /> : "Book Apppointment"}
+        <Button type="submit" className="float-right">
+          {loading ? <LoaderComponent /> : "Book Apppointment"}
         </Button>
       </form>
     </Form>
