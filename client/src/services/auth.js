@@ -1,13 +1,24 @@
 //axiox
 import axios from 'axios'
-axios.defaults.withCredentials = true;
+// const API_URL = "https://medico-slot.vercel.app";
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
-const API_URL = "https://medico-slot.vercel.app";
+const apiClient = axios.create({
+    baseURL: API_URL,
+});
+
+apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem('auth_token'); // Fetch token
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export const login = async ({CNIC, password}) => {
     try{
         console.log(API_URL)
-        const response = await axios.post(`${API_URL}/api/auth/login`, {CNIC, password});
+        const response = await apiClient.post(`${API_URL}/api/auth/login`, {CNIC, password});
       
         // Access the response data
         console.log('Response Data:', response.data);
@@ -28,8 +39,10 @@ export const login = async ({CNIC, password}) => {
 
 export const logout = async () => {
     try {
-        const response = await axios.post(`${API_URL}/api/auth/logout`);
+        const response = await apiClient.post(`${API_URL}/api/auth/logout`);
         console.log('Response Data:', response.data);
+        //remove token from local storage
+        localStorage.removeItem('auth_token');
         return response.data;
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);

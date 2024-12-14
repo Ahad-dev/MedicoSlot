@@ -35,15 +35,26 @@ export const getData = ()=>{
     // TODO: Call the API
     return uncommingAppointments;
 }   
-const API_URL = "https://medico-slot.vercel.app";
+// const API_URL = "https://medico-slot.vercel.app";
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
+const apiClient = axios.create({
+    baseURL: API_URL,
+});
+
+apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem('auth_token'); // Fetch token
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export const getBasicInfo = async () => {
     try {
-        const response = await axios.get(`${API_URL}/api/patient/basicinfo`);
+        const response = await apiClient.get(`${API_URL}/api/patient/basicinfo`);
         console.log(response.data)
         return response.data;
     } catch (error) {

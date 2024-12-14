@@ -14,10 +14,11 @@ const PORT = process.env.PORT;
 
 
 app.use(cors({
-    origin: "https://medico-slot-rb7a.vercel.app", // Only allow requests from this origin
+    //allow multiple origins
+    origin: ['http://localhost:5173', 'https://medico-slot-rb7a.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  credentials: true, // Enable cookies
+//   credentials: true, // Enable cookies
 }));
 
 app.options('*', cors());
