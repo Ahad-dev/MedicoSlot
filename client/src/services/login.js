@@ -1,13 +1,14 @@
 //axiox
 import axios from 'axios'
 
+const API_URL = "https://medico-slot.vercel.app";
 
 axios.defaults.withCredentials = true
 
 export const login = async ({CNIC, password}) => {
     try{
-        console.log(import.meta.env.VITE_SERVER_URL)
-        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/login`, {CNIC, password});
+        console.log(API_URL)
+        const response = await axios.post(`${API_URL}/api/auth/login`, {CNIC, password});
       
         // Access the response data
         console.log('Response Data:', response.data);

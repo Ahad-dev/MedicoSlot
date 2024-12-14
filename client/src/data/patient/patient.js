@@ -35,13 +35,15 @@ export const getData = ()=>{
     // TODO: Call the API
     return uncommingAppointments;
 }   
+const API_URL = "https://medico-slot.vercel.app";
+
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
 export const getBasicInfo = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/patient/basicinfo`);
+        const response = await axios.get(`${API_URL}/api/patient/basicinfo`);
         console.log(response.data)
         return response.data;
     } catch (error) {

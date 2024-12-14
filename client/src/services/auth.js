@@ -2,10 +2,12 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 
+const API_URL = "https://medico-slot.vercel.app";
+
 export const login = async ({CNIC, password}) => {
     try{
-        console.log(import.meta.env.VITE_SERVER_URL)
-        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/login`, {CNIC, password});
+        console.log(API_URL)
+        const response = await axios.post(`${API_URL}/api/auth/login`, {CNIC, password});
       
         // Access the response data
         console.log('Response Data:', response.data);
@@ -26,7 +28,7 @@ export const login = async ({CNIC, password}) => {
 
 export const logout = async () => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/logout`);
+        const response = await axios.post(`${API_URL}/api/auth/logout`);
         console.log('Response Data:', response.data);
         return response.data;
     } catch (error) {
