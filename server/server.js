@@ -14,9 +14,13 @@ const PORT = process.env.PORT;
 
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL, // Your frontend URL
-    credentials: true,              // Allow credentials (cookies)
+    origin: process.env.FRONTEND_URL, // Only allow requests from this origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Enable cookies
 }));
+
+app.options('*', cors());
 
 //connect to database
 connectDB();
