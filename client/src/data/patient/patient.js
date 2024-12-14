@@ -41,7 +41,7 @@ axios.defaults.withCredentials = true;
 
 export const getBasicInfo = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/patient/basicinfo`);
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/patient/basicinfo`);
         console.log(response.data)
         return response.data;
     } catch (error) {
