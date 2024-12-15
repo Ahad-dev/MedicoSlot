@@ -1,4 +1,5 @@
 // import Button from "../common/Button"
+import { Link } from "react-router-dom"
 import { Button } from "../ui/button"
 import { 
     Card,
@@ -34,7 +35,9 @@ const AppointmentCard = ({appointment}) => {
                 className="w-full bg-Primary-dark-Green hover:bg-green-500"
 
             >
+                <Link to={`/patient/appointment/${appointment.id}`}>
                 Details
+                </Link>
             </Button>
       </CardFooter>
     </Card>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Routes,Route, useLocation} from 'react-router-dom'
 import PatientLayout from '@/pages/patient/PatientLayout'
-import { Dashboard,Appointments, AppointmentsHistory, Settings, AddAppointment } from '@/pages/patient'
+import { Dashboard,Appointments, AppointmentsHistory, Settings, AddAppointment, AppointmentDetails } from '@/pages/patient'
 import Home from '@/pages/home/Home'
 import AddAppointmentLayout from '@/pages/patient/add-appointment/AddAppointmentLayout'
 import Login from '@/pages/Auth/Login'
@@ -40,7 +40,7 @@ const App = () => {
               <Route path='/patient/dashboard' element={<Dashboard/>}></Route>
               <Route path='/patient/appointments' element={<Appointments/>}></Route>
               <Route path='/patient/appointments-history' element={<AppointmentsHistory/>}></Route>
-              <Route path='/patient/appointment/:id' element={<h1>A</h1>}></Route>
+              <Route path='/patient/appointment/:id' element={<AppointmentDetails></AppointmentDetails>}></Route>
               <Route path='/patient/settings' element={<Settings/>}></Route>
           </Route>
           <Route element = {<ProtectedRoute><AddAppointmentLayout/></ProtectedRoute>}>

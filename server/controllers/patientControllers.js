@@ -183,10 +183,77 @@ const getDoctors = async (req, res) => {
   }
 };
 
+const getDoctorAppointments = async (req, res) => {
+  const { doctorId } = req.params;
+  console.log("Doctor ID:", doctorId);
+  try {
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    const appointments = await Appointment.find({ doctor: doctorId }).populate("token");
+    return res.status(200).json({ success: true, appointments });
+  }
+  catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+}
+const getAppointmentsById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    console.log("Patient ID:", id);
+
+    // Find the appointment by ID and populate related fields
+    const appointment = await Appointment.findById(id)
+      .populate({
+        path: "doctor",
+        populate: { path: "doctor_id", select: "fullName" }, // Populate doctor_id with fullName
+      })
+      .populate({
+        path: "token",
+        select: "date time day time_slot", // Populate token fields
+      });
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    // Extract appointment details
+    const { token, _id, doctor,status } = appointment;
+
+    // Check if `token` and `doctor` exist
+    if (!token || !doctor || !doctor.doctor_id) {
+      return res.status(404).json({ message: "Incomplete appointment details" });
+    }
+
+    const { date, time_slot, day } = token;
+
+    // Construct the response object
+    const result = {
+      id: _id,
+      doctorName: doctor.doctor_id.fullName, // Safely access populated fullName
+      date: date.toDateString(), // Format date as a string
+      time: time_slot,
+      day,
+      doctor,
+      status
+    };
+
+    res.status(200).json({ appointment: result });
+  } catch (err) {
+    console.error("Error fetching appointment:", err.message);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+
+
 module.exports = {
   getBasicInfo,
   getUncommingAppointments,
   getAppointmentHistory,
   bookAppointment,
   getDoctors,
+  getDoctorAppointments,
+  getAppointmentsById,
 };

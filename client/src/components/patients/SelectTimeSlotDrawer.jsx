@@ -22,12 +22,21 @@ const SelectTimeSlotDrawer = ({ buttonLabel }) => {
   const [selectedDate, setSelectedDate] = useState(null); // Date selected by user
   const [day, setDay] = useState("");
   const [isValidDate, setIsValidDate] = useState(false); // Validation for availability
-
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState(null);
   // Get time slots for the selected doctor
-  const timeSlots = getTimeSlot(
-    selectedDoctor.available_timeslots,
-    selectedDoctor.specialization
-  );
+
+  // Handle time slots button click
+  const handleTimeSlots = (date) => {
+    const availableTimeSlots = selectedDoctor.available_timeslots;
+    const specialization = selectedDoctor.specialization;
+    const doctorId = selectedDoctor._id;
+
+    getTimeSlot(availableTimeSlots, specialization, doctorId, date).then(
+      (timeSlots) => {
+        setSelectedTimeSlots(timeSlots);
+      }
+    );
+  };
 
   // Helper to check if a date is selectable
   const isDateSelectable = (date) => {
@@ -45,6 +54,7 @@ const SelectTimeSlotDrawer = ({ buttonLabel }) => {
     const dayName = date.toLocaleDateString("en-US", { weekday: "long" }); // Get day name
     setDay(dayName);
     setIsValidDate(selectedDoctor.availability_days.includes(dayName)); // Check if available
+    handleTimeSlots(date); // Fetch time slots
   };
 
   const handleSlotSelection = (slot) => {
@@ -104,13 +114,13 @@ const SelectTimeSlotDrawer = ({ buttonLabel }) => {
         </div>
 
         {/* Time Slot Buttons */}
-        {isValidDate && (
+        {isValidDate && selectedTimeSlots && (
           <div className="mt-6">
             <p className="text-lg font-semibold mb-4">
               Available Time Slots for {day}:
             </p>
             <div className="w-full flex flex-wrap gap-4">
-              {timeSlots.map((slot, index) => (
+              {selectedTimeSlots.map((slot, index) => (
                 <Button
                   key={index}
                   onClick={() => handleSlotSelection(slot)}

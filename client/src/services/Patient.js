@@ -26,6 +26,7 @@ export const getDoctors = async ()=>{
 }
 
 export const bookAppointment = async (appointmentData)=>{
+    console.log('Appointment Data:', appointmentData);
     try{
         const response = await apiClient.post(`${API_URL}/api/patient/bookappointment`, appointmentData);
         console.log('Response Data:', response.data);
@@ -49,6 +50,16 @@ export const getAppointmentHistory = async ()=>{
     try{
         const response = await apiClient.get(`${API_URL}/api/patient/appointmenthistory`);
         console.log('Response Data:', response.data);
+        return response.data.appointments;
+    }catch(error){
+        console.error('Error:', error.response?.data || error.message);
+    }
+}
+
+// get all appoinmtnet of particular doctor
+export const getAllAppointments = async (doctorId)=>{
+    try{
+        const response = await apiClient.get(`${API_URL}/api/patient/appointments/${doctorId}`);
         return response.data.appointments;
     }catch(error){
         console.error('Error:', error.response?.data || error.message);

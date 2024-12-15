@@ -1,6 +1,7 @@
 import { Button } from "../ui/button"
 import { LogIn } from "lucide-react"
 import { MdAppRegistration } from "react-icons/md"
+import { Link } from "react-router-dom"
 
 
 const Navbar = () => {
@@ -11,7 +12,7 @@ const Navbar = () => {
                 <img src="/logo.png" alt="" height={100}/>
             </div>
             <div className="flex gap-5">
-                <Button className="bg-Primary-dark-blue hover:bg-blue-500">Login <LogIn></LogIn></Button>
+                <Button className="bg-Primary-dark-blue hover:bg-blue-500"> <Link to={"/login"}>Login</Link> <LogIn></LogIn></Button>
                 <Button className="bg-Primary-dark-blue hover:bg-blue-500">Sign Up <MdAppRegistration></MdAppRegistration></Button>
             </div>
         </div>

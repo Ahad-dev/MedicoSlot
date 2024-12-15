@@ -2,6 +2,7 @@ import React from 'react'
 import  homeavatar from "@/assets/home/HeroIllustraction.svg"
 import { Button } from '../ui/button'
 import {motion} from 'motion/react'
+import { Link } from 'react-router-dom'
 
 const HeroSection = () => {
   return (  
@@ -15,7 +16,7 @@ const HeroSection = () => {
             <h1 className='text-5xl font-bold text-blue-500'>Your Health, Our Priority</h1>
             <p className='text-gray-500/70'>Book Appointments Easily, Access Reports, and Manage Your Health Online</p>
         </div>
-        <Button>Get Started</Button>
+        <Button> <Link to={"/login"} >Get Started</Link></Button>
       </div>
       <img src={homeavatar} width={600} alt="adsf" />
     </motion.div>
