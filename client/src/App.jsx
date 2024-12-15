@@ -8,6 +8,8 @@ import Login from '@/pages/Auth/Login'
 import { AuthenticationContextProvider } from './context/AuthenticationContext'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import LoaderPage from './components/common/LoaderPage'
+import DoctorLayout from './pages/doctor/DoctorLayout'
+import { DoctorDashboard } from './pages/doctor'
 
 
 
@@ -45,6 +47,9 @@ const App = () => {
           </Route>
           <Route element = {<ProtectedRoute><AddAppointmentLayout/></ProtectedRoute>}>
             <Route path="/patient/add-appointment" element={<AddAppointment/>}/>
+          </Route>
+          <Route element={<DoctorLayout/>}>
+            <Route path='/doctor/dashboard' element={<DoctorDashboard/>}></Route>
           </Route>
         </Routes>
     </AuthenticationContextProvider>

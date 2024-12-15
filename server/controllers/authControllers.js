@@ -1,4 +1,4 @@
-const { User ,Patient} = require("../models/user.model");
+const { User ,Patient, Doctor} = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const { createTokenAndSetCookie } = require("../lib/token");
 
@@ -86,7 +86,59 @@ const logout = async (req, res) => {
   res.status(200).json({ success: true, message: "User Logged Out Successfully" });
 }
 
+
+const doctorRegister = async (req, res) => {
+  const { fullName, CNIC, password, specialization,experience } = req.body;
+  try {
+    let user = await User.findOne({ CNIC });
+    console.log(user);
+
+    //check if the user already exist
+    if (user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User Already Exist" });
+    }
+
+    //hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user = await User.create({
+      fullName,
+      CNIC,
+      password: hashedPassword,
+      role: "Doctor",
+    });
+
+    //create a doctor
+    const doctor = new Doctor({
+      doctor_id: user._id,
+      specialization,
+      experience
+    });
+
+    await doctor.save();
+
+    //create the token and set the cookie
+    const token = createTokenAndSetCookie(res, {
+      id: user._id,
+      fullName: user.fullName,
+      CNIC: user.CNIC,
+      specialization: user.specialization,
+    });
+
+    //send the response
+    res
+      .status(200)
+      .json({ success: true, token, message: "User Registered Successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: `Error in Register ${error.message}` });
+  }
+}
+
 module.exports = {
+  doctorRegister,
   patientRegister,
   login,
   logout

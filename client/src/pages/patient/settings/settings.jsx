@@ -1,4 +1,4 @@
-import BasicInfo from '@/components/patients/basic-info'
+import BasicInfo from '@/components/common/basic-info'
 import DeleteAccount from '@/components/patients/DeleteAccount'
 import Notifications from '@/components/patients/Notifications'
 import React from 'react'

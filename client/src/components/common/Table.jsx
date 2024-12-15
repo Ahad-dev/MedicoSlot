@@ -24,6 +24,7 @@ const UncommingAppointmentsTable = ({
   headerLabel,
   DetailLink,
   headers = true,
+  role="patient"
 }) => {
   const table = useReactTable({
     data,
@@ -40,7 +41,7 @@ const UncommingAppointmentsTable = ({
     >
       {headers && (
         <div className="flex justify-between">
-          <Header label={headerLabel} />
+          <Header role={role} label={headerLabel} />
           <Link
             to={DetailLink}
             className="text-gray-500 flex gap-2 hover:scale-105 transition-all cursor-pointer"
@@ -59,7 +60,7 @@ const UncommingAppointmentsTable = ({
             >
               {headerGroup.headers.map((header) => (
                 <TableHead
-                  className="bg-Primary-dark-Green font-semibold text-center text-white "
+                  className={`${role=="Patient"?"bg-Primary-dark-Green":"bg-Primary-dark-blue"} font-semibold text-center text-white `}
                   key={header.id}
                 >
                   {header.isPlaceholder

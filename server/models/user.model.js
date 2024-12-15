@@ -69,11 +69,11 @@ const doctorSchema = new mongoose.Schema({
     },
     availability_days: {
         type: [String],
-        required: true
+        default: ["Monday", "Tuesday", "Wednesday", "Thursday", "Saturday", "Sunday"]
     },
     available_timeslots: {
         type: [String],
-        required: true
+        default: ["9:00 AM - 12:00 PM","12:00 PM - 4:00 PM"]
     },
 })
 

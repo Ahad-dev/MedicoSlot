@@ -43,3 +43,23 @@ export const appointmentHistoryColumns = [
         accessorKey:"details"
     }
 ];
+
+
+export const doctorUpcommingAppointmentsColumns = [
+    {
+        Header: "ID",
+        accessorKey: "id",
+    },
+    {
+        Header: "Patient Name",
+        accessorKey: "patientName",
+    },
+    {
+        Header: "Date",
+        accessorKey: "date",
+    },
+    {
+        Header: "Time",
+        accessorKey: "time",
+    },
+];

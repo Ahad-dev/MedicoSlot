@@ -128,10 +128,16 @@ const bookAppointment = async (req, res) => {
   console.log({ doctorId, day, time, date });
   const { _id: patientId } = req?.user;
   try {
+
+    const patient = await Patient.findOne({ patient_id: patientId });
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+
     //Book the appointment
     const appointment = new Appointment({
       doctor: doctorId,
-      patient: patientId,
+      patient: patient._id,
       status: "Pending",
     });
 
@@ -158,7 +164,6 @@ const bookAppointment = async (req, res) => {
     await appointment.save();
 
     //Add the appointment to patient's appointments
-    let patient = await Patient.findOne({ patient_id: patientId });
 
     patient.appointments = [...patient.appointments, appointment.id];
     await patient.save();
