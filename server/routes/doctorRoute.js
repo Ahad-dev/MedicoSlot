@@ -7,7 +7,9 @@ const {
   getAppointmentHistory,
   goForAnotherCheckup,
   completeCheckup,
-  getAppointmentById
+  getAppointmentById,
+  getDoctorSchedule,
+  saveDoctorSchedule
 } = require("../controllers/doctorControllers");
 
 router.get("/basicinfo",authMiddleware, DoctorAuthMiddleware, getBasicInfo);
@@ -16,6 +18,8 @@ router.get("/appointmenthistory",authMiddleware, DoctorAuthMiddleware, getAppoin
 router.post("/completecheckup",authMiddleware, DoctorAuthMiddleware, completeCheckup);
 router.post("/reschedulecheckup",authMiddleware, DoctorAuthMiddleware, goForAnotherCheckup);
 router.get("/appointment/:id",authMiddleware, DoctorAuthMiddleware, getAppointmentById);
+router.get("/schedule",authMiddleware, DoctorAuthMiddleware, getDoctorSchedule);
+router.post("/schedule",authMiddleware, DoctorAuthMiddleware, saveDoctorSchedule);
 
 
 

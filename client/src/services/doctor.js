@@ -19,7 +19,6 @@ apiClient.interceptors.request.use((config) => {
 export const getUncommingAppointments = async ()=>{
     try{
         const response = await apiClient.get(`${API_URL}/api/doctor/upcomingappointments`);
-        console.log('Response Data:', response.data);
         return response.data.appointments;
     }catch(error){
         console.error('Error:', error.response?.data || error.message);
@@ -29,10 +28,28 @@ export const getUncommingAppointments = async ()=>{
 export const getAppointmentHistory = async ()=>{
     try{
         const response = await apiClient.get(`${API_URL}/api/doctor/appointmenthistory`);
-        console.log('Response Data:', response.data);
         return response.data.appointments;
     }catch(error){
         console.error('Error:', error.response?.data || error.message);
     }
 }
 
+
+export const getDoctorSchedule = async ()=>{
+    try{
+        const response = await apiClient.get(`${API_URL}/api/doctor/schedule`);
+        return response.data.schedule;
+    }catch(error){
+        console.error('Error:', error.response?.data || error.message);
+    }
+}
+
+export const saveDoctorSchedule = async (schedule)=>{
+    console.log('Schedule:',schedule);
+    try{
+        const response = await apiClient.post(`${API_URL}/api/doctor/schedule`,schedule);
+        return response.data;
+    }catch(error){
+        console.error('Error:', error.response?.data || error.message);
+    }
+}

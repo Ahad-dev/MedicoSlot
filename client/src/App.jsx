@@ -9,7 +9,7 @@ import { AuthenticationContextProvider } from './context/AuthenticationContext'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import LoaderPage from './components/common/LoaderPage'
 import DoctorLayout from './pages/doctor/DoctorLayout'
-import { CheckUpPatient, DoctorDashboard } from './pages/doctor'
+import { CheckUpPatient, DoctorAppointmentHistory, DoctorDashboard, ScheduleManagment } from './pages/doctor'
 import DoctorAppointments from './pages/doctor/appointments/AppointmentPage'
 
 
@@ -53,6 +53,8 @@ const App = () => {
             <Route path='/doctor/dashboard' element={<DoctorDashboard/>}></Route>
             <Route path='/doctor/appointments' element={<DoctorAppointments/>}></Route>
             <Route path='/doctor/appointment/checkUp/:id' element={<CheckUpPatient/>}></Route>
+            <Route path='/doctor/appointment/history' element={<DoctorAppointmentHistory/>}></Route>
+            <Route path= "/doctor/schedule-management" element={<ScheduleManagment/>}></Route>
           </Route>
         </Routes>
     </AuthenticationContextProvider>

@@ -1,6 +1,8 @@
 const { Doctor } = require("../models/user.model");
 const Appointment = require("../models/appointment.model");
 const Report = require("../models/report_model");
+const moment = require("moment");
+const { splitTimeRange } = require("../lib/utils");
 
 const getBasicInfo = (req, res) => {
   const user = req.user;
@@ -67,8 +69,6 @@ const getUpcomingAppointments = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
 
 const getAppointmentHistory = async (req, res) => {
   try {
@@ -231,6 +231,86 @@ const getAppointmentById = async (req,res) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 } 
+const getDoctorSchedule = async (req, res) => {
+  try {
+    const { _id: doctorId } = req.user; // Assuming req.user contains the authenticated doctor's ID
+    console.log("Doctor ID:", doctorId);
+
+    // Find the doctor and populate their schedule
+    const doctor = await Doctor.findOne({ doctor_id: doctorId });
+
+    console.log("Doctor:", doctor);
+
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Assuming doctor.available_days and doctor.available_timeslots are stored in the backend
+    const availableDays = doctor.availability_days || [];
+    const availableTimeSlots = doctor.available_timeslots || [];
+
+    console.log(availableTimeSlots)
+
+    // Format the available days
+    const formattedDays = availableDays;
+
+    // Format the available time slots
+    const formattedTimeSlots = availableTimeSlots.map((timeSlot) => {
+      const [start, end] = timeSlot.split(" - ");
+      const start24Hour = moment(start, "hh:mm A").format("HH:mm");
+      const end24Hour = moment(end, "hh:mm A").format("HH:mm");
+      return { startTime: start24Hour, endTime: end24Hour };
+    });
+
+    // the start of first elemet and end of lasat elementt
+
+
+
+    console.log("Formatted Days:", formattedDays);
+    console.log("Formatted Time Slots:",formattedTimeSlots[0],formattedTimeSlots[formattedTimeSlots.length-1]);
+
+    // Structure the final schedule object
+    const schedule = {
+      days: formattedDays,
+      timeSlots: {startTime: formattedTimeSlots[0].startTime,endTime:formattedTimeSlots[formattedTimeSlots.length-1].endTime},
+    };
+
+    res.status(200).json({ schedule });
+  } catch (error) {
+    console.error("Error fetching doctor schedule:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const saveDoctorSchedule = async (req, res) => {
+  const { days, timeSlots } = req.body;
+  const { _id: doctorId } = req.user; // Assuming req.user contains the authenticated doctor's ID
+
+  try {
+    // Find the doctor by ID
+    const doctor = await Doctor.findOne({ doctor_id: doctorId });
+
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Update the doctor's available days and time slots
+    doctor.availability_days = days;
+    //make timeslot the range of time slots and not add 12-1 pm in it and make the array in 12 hours format
+    const time_slots = splitTimeRange(timeSlots);
+    console.log("Time slots:", time_slots);
+    doctor.available_timeslots = time_slots;
+    // Save the updated doctor data
+    await doctor.save();
+
+    res.status(200).json({ message: "Schedule updated successfully" });
+  } catch (error) {
+    console.error("Error saving doctor schedule:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+
 
 module.exports = {
   getBasicInfo,
@@ -238,5 +318,7 @@ module.exports = {
   getAppointmentHistory,
   completeCheckup,
   goForAnotherCheckup,
-  getAppointmentById
+  getAppointmentById,
+  getDoctorSchedule,
+  saveDoctorSchedule
 };
