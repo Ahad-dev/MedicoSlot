@@ -24,8 +24,9 @@ const UncommingAppointmentsTable = ({
   headerLabel,
   DetailLink,
   headers = true,
-  role="patient"
+  role="Patient"
 }) => {
+  console.log(role)
   const table = useReactTable({
     data,
     columns,

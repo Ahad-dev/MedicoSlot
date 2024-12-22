@@ -22,7 +22,7 @@ const BasicInfo = () => {
     transition={{duration:0.5}}>
         <Card 
         >
-            <CardHeader className={`text-2xl ${user.role==="Patient"?"text-Primary-dark-Green":"text-Primary-dark-blue"}`}>
+            <CardHeader className={`text-2xl ${user?.role==="Patient"?"text-Primary-dark-Green":"text-Primary-dark-blue"}`}>
                 <CardTitle >Basic Information</CardTitle>
             </CardHeader>
             <CardContent>

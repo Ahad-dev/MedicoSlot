@@ -23,3 +23,25 @@ export const getAppoitmentsById = async (id)=>{
         console.error('Error:', error.response?.data || error.message);
     }
 }
+
+export const getDoctorAppoitmentsById = async (id)=>{
+    try{
+        const response = await apiClient.get(`${API_URL}/api/doctor/appointment/${id}`);
+        console.log(response.data.appointment)
+        return response.data.appointment;
+    }catch(error){
+        console.error('Error:', error.response?.data || error.message);
+    }
+}
+
+export const completeCheckup = async (appointmentId, prescription) => {
+    try {
+        const response = await apiClient.post(`${API_URL}/api/doctor/completecheckup`, {
+            appointmentId,
+            prescription,
+        });
+        console.log(response.data);
+    } catch (error) {
+        console.error("Error:", error.response?.data || error.message);
+    }
+};

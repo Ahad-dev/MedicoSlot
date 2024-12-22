@@ -8,15 +8,15 @@ const {
   getDoctorAppointments,
   getAppointmentsById,
 } = require("../controllers/patientControllers");
-const authMiddleware = require("../middlewares/authMiddleware");
+const {PatientAuthMiddleware,authMiddleware} = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.get("/basicinfo", authMiddleware, getBasicInfo);
-router.get("/upcomingappointments", authMiddleware, getUncommingAppointments);
-router.get("/appointmenthistory", authMiddleware, getAppointmentHistory);
-router.get("/doctors", authMiddleware, getDoctors);
-router.post("/bookappointment", authMiddleware, bookAppointment);
-router.get("/appointments/:doctorId", authMiddleware, getDoctorAppointments);
-router.get("/appointment/:id", authMiddleware, getAppointmentsById);
+router.get("/upcomingappointments",authMiddleware, PatientAuthMiddleware, getUncommingAppointments);
+router.get("/appointmenthistory",authMiddleware, PatientAuthMiddleware, getAppointmentHistory);
+router.get("/doctors",authMiddleware, PatientAuthMiddleware, getDoctors);
+router.post("/bookappointment",authMiddleware, PatientAuthMiddleware, bookAppointment);
+router.get("/appointments/:doctorId",authMiddleware, PatientAuthMiddleware, getDoctorAppointments);
+router.get("/appointment/:id",authMiddleware, PatientAuthMiddleware, getAppointmentsById);
 
 module.exports = router;

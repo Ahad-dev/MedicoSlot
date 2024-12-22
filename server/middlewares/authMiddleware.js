@@ -4,23 +4,20 @@ const { User } = require("../models/user.model");
 
 
 const authMiddleware = async (req, res, next) => {
-    // console.log(req.cookies)
-    console.log( req.headers['authorization'])
-    try { 
+    try {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
         if (!token) {
-        return res.status(401).json({ success: false, message: "UnAuthorized" });
+            return res.status(401).json({ success: false, message: "UnAuthorized Token" });
         }
-    
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded)
-        const user = await User.findById(decoded.id);
-        console.log(user)
-        if (!user) {
-        return res.status(401).json({ success: false, message: "UnAuthorized" });
+        if (!decoded) {
+            return res.status(401).json({ success: false, message: "UnAuthorized" });
         }
-    
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(401).json({ success: false, message: "UnAuthorized User" });
+        }
         req.user = user;
         next();
     } catch (error) {
@@ -28,4 +25,24 @@ const authMiddleware = async (req, res, next) => {
     }
 }
 
-module.exports = authMiddleware;
+const PatientAuthMiddleware = async (req, res, next) => {
+    console.log(req.user);
+    if(req.user.role !== 'Patient'){
+        return res.status(401).json({ success: false, message: "UnAuthorized Role" });
+    }
+    next();
+}
+
+const DoctorAuthMiddleware = async (req, res, next) => {
+    console.log(req.user);
+    if(req.user.role !== 'Doctor'){
+        return res.status(401).json({ success: false, message: "UnAuthorized Role" });
+    }
+    next();
+}
+
+module.exports = {
+    PatientAuthMiddleware,
+    DoctorAuthMiddleware,
+    authMiddleware
+};

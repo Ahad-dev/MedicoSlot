@@ -1,19 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
+const {DoctorAuthMiddleware,authMiddleware} = require("../middlewares/authMiddleware");
 const {
   getBasicInfo,
   getUpcomingAppointments,
   getAppointmentHistory,
   goForAnotherCheckup,
-  completeCheckup
+  completeCheckup,
+  getAppointmentById
 } = require("../controllers/doctorControllers");
 
-router.get("/basicinfo", authMiddleware, getBasicInfo);
-router.get("/upcomingappointments", authMiddleware, getUpcomingAppointments);
-router.get("/appointmenthistory", authMiddleware, getAppointmentHistory);
-router.post("/completecheckup", authMiddleware, completeCheckup);
-router.post("/reschedulecheckup", authMiddleware, goForAnotherCheckup);
+router.get("/basicinfo",authMiddleware, DoctorAuthMiddleware, getBasicInfo);
+router.get("/upcomingappointments",authMiddleware, DoctorAuthMiddleware, getUpcomingAppointments);
+router.get("/appointmenthistory",authMiddleware, DoctorAuthMiddleware, getAppointmentHistory);
+router.post("/completecheckup",authMiddleware, DoctorAuthMiddleware, completeCheckup);
+router.post("/reschedulecheckup",authMiddleware, DoctorAuthMiddleware, goForAnotherCheckup);
+router.get("/appointment/:id",authMiddleware, DoctorAuthMiddleware, getAppointmentById);
+
 
 
 module.exports = router;

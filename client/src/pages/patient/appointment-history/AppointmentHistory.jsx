@@ -1,5 +1,6 @@
 import { SearchBar } from '@/components/common';
 import Header from '@/components/common/Header';
+import { LoaderComponent } from '@/components/common/Loader';
 import AppointmentHistoryTable from '@/components/patients/AppointmentHistoryTable';
 import { getAppointmentHistory } from '@/services/Patient';
 import { useEffect, useState } from 'react';
@@ -21,7 +22,7 @@ const AppointmentHistory = () => {
       });
     }, []);
   
-    console.log(appointments);
+    console.log(filteredAppointments);
   
     const handleSearch = (searchTerm) => {
       const lowerCaseTerm = searchTerm.trim().toLowerCase(); // Normalize search term
@@ -48,11 +49,12 @@ const AppointmentHistory = () => {
   
 
   return (
+    
     <div className="space-y-10">
       <Header label="Appointments" />
       <SearchBar handleSearch={handleSearch} />
 
-      <AppointmentHistoryTable data={filteredAppointments} loading={loading} />
+      {!loading ? <AppointmentHistoryTable data={filteredAppointments} />:<LoaderComponent />}  
     </div>
   );
 };

@@ -5,7 +5,6 @@ import {
     Card,
     CardContent,
     CardFooter,
-
 } from "../ui/card"
 
 const AppointmentCard = ({appointment}) => {

@@ -1,5 +1,6 @@
 const { Doctor } = require("../models/user.model");
 const Appointment = require("../models/appointment.model");
+const Report = require("../models/report_model");
 
 const getBasicInfo = (req, res) => {
   const user = req.user;
@@ -130,17 +131,21 @@ const getAppointmentHistory = async (req, res) => {
 
 const completeCheckup = async (req, res) => {
   const { appointmentId, prescription } = req.body;
+  console.log({
+    appointmentId,
+    prescription  
+  })
   try {
-    const appointment = await Appointment.findById(appointmentId).populate(
-      "report"
-    );
+    const appointment = await Appointment.findById(appointmentId);
 
     if (!appointment) {
       return res
         .status(404)
         .json({ success: false, message: "Appointment not found" });
     }
-    appointment.report.prescription = prescription;
+    const report = await Report.findById(appointment.report);
+    report.prescription = prescription;
+    await report.save();
     appointment.status = "Completed";
     await appointment.save();
     return res
@@ -178,10 +183,60 @@ const goForAnotherCheckup = async (req, res) => {
   }
 };
 
+const getAppointmentById = async (req,res) => {
+  const { id } = req.params;
+  try {
+    console.log("Patient ID:", id);
+
+    // Find the appointment by ID and populate related fields
+    const appointment = await Appointment.findById(id)
+      .populate({
+        path: "patient",
+        populate: { path: "patient_id" }, // Populate doctor_id with fullName
+      })
+      .populate({
+        path: "token",
+        select: "date time day time_slot", // Populate token fields
+      });
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    // Extract appointment details
+    const { token, _id, patient,status } = appointment;
+
+    // Check if `token` and `doctor` exist
+    if (!token || !patient || !patient.patient_id) {
+      return res.status(404).json({ message: "Incomplete appointment details" });
+    }
+
+    const { date, time_slot, day } = token;
+
+    // Construct the response object
+    const result = {
+      id: _id,
+      patientName: patient.patient_id.fullName, // Safely access populated fullName
+      date: date.toDateString(), // Format date as a string
+      time: time_slot,
+      day,
+      patient,
+      status
+    };
+    console.log("Result:", result);
+
+    res.status(200).json({ appointment: result });
+  } catch (err) {
+    console.error("Error fetching appointment:", err.message);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+} 
+
 module.exports = {
   getBasicInfo,
   getUpcomingAppointments,
   getAppointmentHistory,
   completeCheckup,
   goForAnotherCheckup,
+  getAppointmentById
 };

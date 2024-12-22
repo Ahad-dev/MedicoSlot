@@ -3,7 +3,7 @@ import Header from './Header'
 import LabeledCard from './LabeledCard'
 
 const AppointmentReport = ({appointment}) => {
-    console.log(appointment.doctorName)
+    console.log(appointment)
   return (
     <div className='space-y-10'>
       <Header label={"Appointment Report"}/>
@@ -18,6 +18,11 @@ const AppointmentReport = ({appointment}) => {
             <LabeledCard label={"Day"} data={appointment.day}/>
             <LabeledCard label={"Status"} data={appointment.status}/>
         </div>
+        {appointment.report.prescription && 
+            <textarea className='border border-green-500/50 rounded-sm shadow-lg p-4 w-full text-gray-400 text-xl' rows={5}   disabled >
+                {appointment.report.prescription}
+            </textarea>
+}
     </div>
 
   )

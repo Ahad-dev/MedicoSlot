@@ -217,14 +217,15 @@ const getAppointmentsById = async (req, res) => {
       .populate({
         path: "token",
         select: "date time day time_slot", // Populate token fields
-      });
+      })
+      .populate("report");
 
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found" });
     }
 
     // Extract appointment details
-    const { token, _id, doctor,status } = appointment;
+    const { token, _id, doctor,status,report } = appointment;
 
     // Check if `token` and `doctor` exist
     if (!token || !doctor || !doctor.doctor_id) {
@@ -241,6 +242,7 @@ const getAppointmentsById = async (req, res) => {
       time: time_slot,
       day,
       doctor,
+      report,
       status
     };
 

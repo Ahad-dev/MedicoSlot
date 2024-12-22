@@ -54,7 +54,8 @@ const LoginForm = () => {
             setSuccess("Logged in successfully");
             //Wait for 1 second before redirecting
             setTimeout(() => {
-              navigation("/patient/dashboard");
+              if(result.user.role === 'Patient') navigation("/patient/dashboard");
+              else if(result.user.role === 'Doctor') navigation("/doctor/dashboard");
             }, 500);
           } else {
             setError(result.message);
