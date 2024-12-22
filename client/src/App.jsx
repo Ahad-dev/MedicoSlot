@@ -11,6 +11,11 @@ import LoaderPage from './components/common/LoaderPage'
 import DoctorLayout from './pages/doctor/DoctorLayout'
 import { CheckUpPatient, DoctorAppointmentHistory, DoctorDashboard, ScheduleManagment } from './pages/doctor'
 import DoctorAppointments from './pages/doctor/appointments/AppointmentPage'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminLayout from './pages/admin/AdminLayout'
+import ManageUser from './pages/admin/ManageUser'
+import CreateNewUesr from './pages/admin/CreateNewUesr'
+import UpdateUserForm from './pages/admin/updateUser'
 
 
 
@@ -55,6 +60,12 @@ const App = () => {
             <Route path='/doctor/appointment/checkUp/:id' element={<CheckUpPatient/>}></Route>
             <Route path='/doctor/appointment/history' element={<DoctorAppointmentHistory/>}></Route>
             <Route path= "/doctor/schedule-management" element={<ScheduleManagment/>}></Route>
+          </Route>
+          <Route element={<AdminLayout/>}>
+            <Route path="/admin/dashboard" element={<AdminDashboard/>}></Route>
+            <Route path="/admin/manageUsers" element={<ManageUser/>}></Route>
+            <Route path='/admin/add-user' element={<CreateNewUesr/>}></Route>
+            <Route path='/admin/update-user/:userId' element={<UpdateUserForm/>}></Route>
           </Route>
         </Routes>
     </AuthenticationContextProvider>

@@ -19,4 +19,6 @@ router.post("/bookappointment",authMiddleware, PatientAuthMiddleware, bookAppoin
 router.get("/appointments/:doctorId",authMiddleware, PatientAuthMiddleware, getDoctorAppointments);
 router.get("/appointment/:id",authMiddleware, PatientAuthMiddleware, getAppointmentsById);
 
+
+
 module.exports = router;

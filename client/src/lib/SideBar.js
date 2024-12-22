@@ -1,5 +1,6 @@
 import { MdSpaceDashboard } from "react-icons/md";
 import { MdMedicalServices } from "react-icons/md";
+import { Users2Icon } from "lucide-react";
 import { IoSettings } from "react-icons/io5";
 import { History,CalendarCog } from "lucide-react";
 
@@ -47,6 +48,31 @@ export const DoctorSideBarLinks = [
     {
         name: 'Settings',
         path:"/doctor/settings",
+        icon: IoSettings
+    }
+]
+
+
+export const AdminSideBarLinks = [
+    {
+        name: 'Dashboard',
+        path:"/admin/dashboard",
+        icon: MdSpaceDashboard
+
+    },
+    {
+        name: 'Manage Users',
+        path:"/admin/manageUsers",
+        icon: Users2Icon
+    },
+    {
+        name: 'Appointments',
+        path:"/admin/appointments",
+        icon: MdMedicalServices
+    },
+    {
+        name: 'Settings',
+        path:"/admin/settings",
         icon: IoSettings
     }
 ]

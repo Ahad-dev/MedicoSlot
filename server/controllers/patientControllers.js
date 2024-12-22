@@ -255,6 +255,7 @@ const getAppointmentsById = async (req, res) => {
 
 
 
+
 module.exports = {
   getBasicInfo,
   getUncommingAppointments,

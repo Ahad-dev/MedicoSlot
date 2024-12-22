@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import Button from "./Button";
 import { MenuIcon } from "lucide-react";
 
-const Sidebar2 = ({ links }) => {
+const Sidebar2 = ({ links,role="Doctor" }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -18,7 +18,7 @@ const Sidebar2 = ({ links }) => {
         initial={{ width: 73 }}
         animate={{ width: isOpen ? 200 : 73 }}
         transition={{ duration: 0.5 }}
-        className={`flex flex-col justify-between h-[92%] py-5 fixed  bg-gradient-to-b  from-Primary-dark-blue to-blue-500 ${
+        className={`flex flex-col justify-between h-[92%] py-5 fixed  bg-gradient-to-b  ${role=="Doctor"?"from-Primary-dark-blue to-blue-500":"from-teal-800   to-teal-500"} ${
           isOpen ? "w-[185px]" : "w-[64px]"
         }`}
       >
