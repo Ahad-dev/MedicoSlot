@@ -17,6 +17,8 @@ import ManageUser from './pages/admin/ManageUser'
 import CreateNewUesr from './pages/admin/CreateNewUesr'
 import UpdateUserForm from './pages/admin/updateUser'
 import Register from './pages/Auth/Register'
+import AdminAppointments from './pages/admin/Appointments'
+import AdminAppointmentDetails from './pages/admin/AppointmentDetails'
 
 
 
@@ -68,6 +70,8 @@ const App = () => {
             <Route path="/admin/manageUsers" element={<ManageUser/>}></Route>
             <Route path='/admin/add-user' element={<CreateNewUesr/>}></Route>
             <Route path='/admin/update-user/:userId' element={<UpdateUserForm/>}></Route>
+            <Route path="/admin/appointments" element={<AdminAppointments/>}></Route>
+            <Route path='/admin/appointment/:id' element={<AdminAppointmentDetails/>}></Route>
           </Route>
         </Routes>
     </AuthenticationContextProvider>

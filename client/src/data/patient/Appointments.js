@@ -58,9 +58,11 @@ export const getTimeSlot = async (
 ) => {
   // Fetch all appointments for the doctor
   const appointments = await getAllAppointments(doctorId);
+  console.log(appointments)
 
   // Filter appointments for the selected date
   const dateAppointments = appointments.filter((appointment) => {
+    console.log(appointment);
     const appointmentDate = moment(appointment.token.date, "YYYY-MM-DD")
       .add(1, "day") // Temporary adjustment for date mismatch
       .format("YYYY-MM-DD");

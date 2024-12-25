@@ -85,6 +85,11 @@ const AddAppointmentForm = () => {
     })
   };
 
+  const handleClick = () => {
+    if(!selectedDoctor || !selectedTimeSlot)
+    toast.error("Please select a doctor and time slot")
+  }
+
   return (
     <>
     <Button className = "mb-5" variant = "destructive" ><Link to="/patient/dashboard"> Go back home </Link></Button>
@@ -169,7 +174,7 @@ const AddAppointmentForm = () => {
         <div className="grid grid-cols-2 gap-5 mb-10 justify-center items-center">
           {!selectedDoctor ? (
             <>
-              <Button className = "p-5 w-[fit-content] m-auto" >Automatic Select Doctor for you</Button>
+              {/* <Button className = "p-5 w-[fit-content] m-auto" >Automatic Select Doctor for you</Button> */}
               <SelectDoctorDialog buttonLabel={"Select Doctor"} />
             </>
           ) : (
@@ -242,7 +247,7 @@ const AddAppointmentForm = () => {
             {
               !selectedTimeSlot?
               <>
-              <Button className = "p-5 w-[fit-content] m-auto" >Automatic Select Time Slot</Button>
+              {/* <Button className = "p-5 w-[fit-content] m-auto" >Automatic Select Time Slot</Button> */}
               <SelectTimeSlotDrawer buttonLabel="Select Time Slot"/>
               </>
               :
@@ -293,7 +298,7 @@ const AddAppointmentForm = () => {
         </>
         }
 
-        <Button type="submit" className="float-right">
+        <Button type="submit" onClick={handleClick} className="float-right">
           {loading ? <LoaderComponent /> : "Book Apppointment"}
         </Button>
       </form>

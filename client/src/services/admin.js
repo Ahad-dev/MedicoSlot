@@ -74,3 +74,21 @@ export const updateUser = async (userId, updatedData) => {
         console.error(error);
     }
 }
+
+
+export const deleteUser = async (userId) => {
+    try {
+        const response = await apiClient.post("/api/admin/delete_user", { userId });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+export const getAppointmentsById = async (appointmentId) => {
+    try {
+        const response = await apiClient.get(`/api/admin/appointment/${appointmentId}`);
+        return response.data.appointment;
+    } catch (error) {
+        console.error(error);
+    }
+}

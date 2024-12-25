@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const AppointmentTable = ({ data }) => {
+const AppointmentTable = ({ data,details=false }) => {
   return (
     !data ? <div className="text-center text-2xl text-gray-500">No Appointments</div> :
     <table className="w-full overflow-hidden rounded-lg shadow-lg">
@@ -20,6 +20,12 @@ const AppointmentTable = ({ data }) => {
             <th className="p-6 bg-teal-600 text-white">
               Status
             </th>
+            {details &&
+            <th className="p-6 bg-teal-600 text-white">
+              Details
+            </th>
+            }
+            
         </tr>
       </thead>
       <tbody>
@@ -36,6 +42,13 @@ const AppointmentTable = ({ data }) => {
                 </div>
                 
             </td>
+            {details &&
+            <td className="py-6 text-center">
+              <Link to={`/admin/appointment/${item._id}`}>
+                <Button className="bg-teal-700 hover:bg-teal-500 p-2 w-24">Details</Button>
+              </Link>
+            </td>
+            }
           </tr>
         ))}
       </tbody>

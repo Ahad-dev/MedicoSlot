@@ -6,7 +6,7 @@ const AppointmentHistoryTable = ({ data }) => {
   console.log({data});
 
   return (
-    !data ? <div className="text-center text-2xl text-gray-500">No Appointments</div> :
+    data.length ==0 ? <div className="text-center text-2xl text-gray-500">No Appointments</div> :
     <table className="w-full overflow-hidden rounded-lg shadow-lg">
       <thead>
         <tr>

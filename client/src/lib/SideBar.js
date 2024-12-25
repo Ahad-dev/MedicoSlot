@@ -21,11 +21,7 @@ export const PatientSideBarLinks = [
         path:"/patient/appointments-history",
         icon: History
     },
-    {
-        name: 'Settings',
-        path:"/patient/settings",
-        icon: IoSettings
-    }
+
 ]
 
 export const DoctorSideBarLinks = [
@@ -45,11 +41,7 @@ export const DoctorSideBarLinks = [
         path:"/doctor/schedule-management",
         icon:CalendarCog
     },
-    {
-        name: 'Settings',
-        path:"/doctor/settings",
-        icon: IoSettings
-    }
+
 ]
 
 
@@ -70,9 +62,5 @@ export const AdminSideBarLinks = [
         path:"/admin/appointments",
         icon: MdMedicalServices
     },
-    {
-        name: 'Settings',
-        path:"/admin/settings",
-        icon: IoSettings
-    }
+
 ]

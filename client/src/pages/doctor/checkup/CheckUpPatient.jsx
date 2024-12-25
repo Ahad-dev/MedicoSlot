@@ -46,7 +46,7 @@ const CheckUpPatient = () => {
         } className="w-full h-60 border-2 border-gray-300 rounded-lg outline-none p-5" placeholder="Write prescription here"></textarea>
         <div className='flex justify-between'>
             <Button className="mt-5 bg-Primary-dark-blue hover:bg-blue-400 text-white " onClick={handleCompleteCheckUP}>Complete Checkup</Button>
-            <Button className="mt-5 bg-Primary-dark-blue hover:bg-blue-400 text-white " >Go for another Appointment</Button>
+            {/* <Button className="mt-5 bg-Primary-dark-blue hover:bg-blue-400 text-white " >Go for another Appointment</Button> */}
         </div>
     </div>
   )
