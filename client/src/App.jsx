@@ -16,6 +16,7 @@ import AdminLayout from './pages/admin/AdminLayout'
 import ManageUser from './pages/admin/ManageUser'
 import CreateNewUesr from './pages/admin/CreateNewUesr'
 import UpdateUserForm from './pages/admin/updateUser'
+import Register from './pages/Auth/Register'
 
 
 
@@ -43,6 +44,7 @@ const App = () => {
     <AuthenticationContextProvider>
           <Routes>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
           <Route path='/' element={<Home/>} />
           <Route element ={<ProtectedRoute><PatientLayout/></ProtectedRoute>}>
               <Route path='/patient/dashboard' element={<Dashboard/>}></Route>
@@ -54,14 +56,14 @@ const App = () => {
           <Route element = {<ProtectedRoute><AddAppointmentLayout/></ProtectedRoute>}>
             <Route path="/patient/add-appointment" element={<AddAppointment/>}/>
           </Route>
-          <Route element={<DoctorLayout/>}>
+          <Route element={<ProtectedRoute><DoctorLayout/> </ProtectedRoute>}>
             <Route path='/doctor/dashboard' element={<DoctorDashboard/>}></Route>
             <Route path='/doctor/appointments' element={<DoctorAppointments/>}></Route>
             <Route path='/doctor/appointment/checkUp/:id' element={<CheckUpPatient/>}></Route>
             <Route path='/doctor/appointment/history' element={<DoctorAppointmentHistory/>}></Route>
             <Route path= "/doctor/schedule-management" element={<ScheduleManagment/>}></Route>
           </Route>
-          <Route element={<AdminLayout/>}>
+          <Route element={<ProtectedRoute><AdminLayout/></ProtectedRoute>}>
             <Route path="/admin/dashboard" element={<AdminDashboard/>}></Route>
             <Route path="/admin/manageUsers" element={<ManageUser/>}></Route>
             <Route path='/admin/add-user' element={<CreateNewUesr/>}></Route>

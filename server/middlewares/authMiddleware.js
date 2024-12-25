@@ -41,8 +41,18 @@ const DoctorAuthMiddleware = async (req, res, next) => {
     next();
 }
 
+
+const AdminAuthMiddleware = async (req, res, next) => {
+    console.log(req.user);
+    if(req.user.role !== 'Admin'){
+        return res.status(401).json({ success: false, message: "UnAuthorized Role" });
+    }
+    next();
+}
+
 module.exports = {
     PatientAuthMiddleware,
     DoctorAuthMiddleware,
-    authMiddleware
+    authMiddleware,
+    AdminAuthMiddleware
 };

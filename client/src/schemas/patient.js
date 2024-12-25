@@ -10,6 +10,18 @@ export const LoginSchema = z.object({
     password: z.string().min(6),
 })
 
+export const RegisterSchema = z.object({
+    fullName: z.string().min(3, {
+        message: "Name must be at least 3 characters long"
+    }),
+    CNIC: z.string().min(13, {
+        message: "CNIC must be at least 12 Number long"
+    }),
+    password: z.string().min(6),
+    // age is of type number
+    age: z.any()
+})
+
 // Add Appointment Schema
 export const AddAppointmentSchema = z.object({
     name: z.string().min(3,{

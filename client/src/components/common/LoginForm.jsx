@@ -56,6 +56,7 @@ const LoginForm = () => {
             setTimeout(() => {
               if(result.user.role === 'Patient') navigation("/patient/dashboard");
               else if(result.user.role === 'Doctor') navigation("/doctor/dashboard");
+              else if(result.user.role === 'Admin') navigation("/admin/dashboard");
             }, 500);
           } else {
             setError(result.message);
@@ -72,7 +73,7 @@ const LoginForm = () => {
     <CardWrapper
       headerLable={"Login"}
       backButtonLabel={"Don't have an Account"}
-      backButtonhref={"/patient/register"}
+      backButtonhref={"/register"}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">

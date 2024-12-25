@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { createTokenAndSetCookie } = require("../lib/token");
 
 const patientRegister = async (req, res) => {
-  const { fullName, CNIC, password } = req.body;
+  const { fullName, CNIC, password,age } = req.body;
   try {
     let user = await User.findOne({ CNIC });
 
@@ -20,6 +20,7 @@ const patientRegister = async (req, res) => {
       fullName,
       CNIC,
       password: hashedPassword,
+      age
     });
     //create a patient
     const patient = new Patient({
@@ -32,13 +33,14 @@ const patientRegister = async (req, res) => {
       id: user._id,
       fullName: user.fullName,
       CNIC: user.CNIC,
+      role:user.role
     });
 
 
     //send the response
     res
       .status(200)
-      .json({ success: true, token, message: "User Registered Successfully" });
+      .json({ success: true, token, message: "User Registered Successfully",user });
   } catch (error) {
     res
       .status(500)

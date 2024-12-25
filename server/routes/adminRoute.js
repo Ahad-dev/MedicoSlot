@@ -12,16 +12,17 @@ const {
   getDoctorById,
   getUserById,
 } = require("../controllers/adminControllers");
+const { authMiddleware, AdminAuthMiddleware } = require("../middlewares/authMiddleware");
 
 
-router.get("/basicInfo", getBasicInfo);
-router.post("/createUser", createUser);
-router.post("/create-patient", createPatient);
-router.get("/get_all_users", getAllUsers);
-router.get("/get_all_appointments", getAllAppointments);
-router.post("/delete_user", deleteUser);
-router.post("/update_user/:userId", updateUser);
-router.get("/doctor/:id", getDoctorById);
-router.get("/user/:id", getUserById);
+router.get("/basicInfo",authMiddleware,AdminAuthMiddleware, getBasicInfo);
+router.post("/createUser",authMiddleware,AdminAuthMiddleware, createUser);
+router.post("/create-patient",authMiddleware,AdminAuthMiddleware, createPatient);
+router.get("/get_all_users",authMiddleware,AdminAuthMiddleware, getAllUsers);
+router.get("/get_all_appointments", authMiddleware,AdminAuthMiddleware,getAllAppointments);
+router.post("/delete_user",authMiddleware,AdminAuthMiddleware, deleteUser);
+router.post("/update_user/:userId",authMiddleware,AdminAuthMiddleware, updateUser);
+router.get("/doctor/:id",authMiddleware,AdminAuthMiddleware, getDoctorById);
+router.get("/user/:id",authMiddleware,AdminAuthMiddleware, getUserById);
 
 module.exports = router;

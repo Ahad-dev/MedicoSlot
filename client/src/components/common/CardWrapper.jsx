@@ -13,11 +13,11 @@ export const CardWrapper = ({
   backButtonLabel,
   backButtonhref,
 }) => {
-  return <Card className="w-[400px] shadow-md m-auto">
+  return <Card className="w-1/2 h-full flex flex-col justify-around shadow-md items-center">
     <CardHeader>
         <h1 className="text-3xl font-semibold">{headerLable}</h1>
     </CardHeader>
-    <CardContent>
+    <CardContent className="w-full">
         {children}
     </CardContent>
 

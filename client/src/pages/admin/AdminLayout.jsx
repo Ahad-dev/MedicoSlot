@@ -8,11 +8,11 @@ import { Toaster } from "@/components/ui/sonner"
 
 
 const AdminLayout = () => {
-//   const {loading} = useAuthentication()
+  const {loading} = useAuthentication()
 
-//   if (loading) {
-//     return <LoaderComponent></LoaderComponent>
-//   }
+  if (loading) {
+    return <LoaderComponent></LoaderComponent>
+  }
   return (
       <div>
         <Navbar />
